@@ -3,19 +3,29 @@ use pgx::*;
 pg_module_magic!();
 
 #[pg_extern]
-fn hello_my_extension() -> &'static str {
-    "Hello, my_extension"
+fn integer_add(internal_state: i32, next_data_value: i32) -> i32 {
+    internal_state + next_data_value
 }
+
+extension_sql!(
+    r#"
+    CREATE AGGREGATE MYSUM (integer)
+    (
+        sfunc = integer_add,
+        stype = integer,
+        initcond = '0'
+    );
+    "#
+);
 
 #[cfg(any(test, feature = "pg_test"))]
 mod tests {
     use pgx::*;
 
     #[pg_test]
-    fn test_hello_my_extension() {
-        assert_eq!("Hello, my_extension", crate::hello_my_extension());
+    fn test_integer_add() {
+        assert_eq!(42, crate::integer_add(-1, 43));
     }
-
 }
 
 #[cfg(test)]
