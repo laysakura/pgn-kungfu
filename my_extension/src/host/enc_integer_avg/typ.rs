@@ -1,9 +1,17 @@
 use pgx::*;
 use serde::{Deserialize, Serialize};
 
+// StealthDB だと（サーバサイドのPostgreSQLが置いているクラウドを信用しない脅威モデルなので）
+// Client Proxy がSQLに現れる integer を暗号化する。その際バイト列表現だとSQLが壊れるので
+// Base64 エンコードしている。
+//
+// こちらのエクステンションではSQLに暗号文が現れるユースケースをサポートしないので、
+// 直接暗号文のバイト列を保持できる。
 #[derive(Serialize, Deserialize, PostgresType)]
-pub struct EncInteger {
-    // TODO 固定長の文字列にしたい。4バイトのintegerをAES-128してBase64にすると...?
-    // StealthDB だと `INTERNALLENGTH = 45` で指定している。
-    pub(crate) base64: String,
+pub struct EncInteger(Vec<u8>);
+
+impl EncInteger {
+    pub(crate) fn as_slice(&self) -> &[u8] {
+        &self.0
+    }
 }

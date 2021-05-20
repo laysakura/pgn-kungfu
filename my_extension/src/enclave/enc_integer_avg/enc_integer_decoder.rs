@@ -9,17 +9,12 @@ const MASTER_KEY: [u8; 16] = [0u8, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
 
 pub(in crate::enclave) trait EncIntegerDecoder {
     fn decode(self) -> Result<i32, DecodeError>;
-
-    fn _decrypt(encrypted: Vec<u8>) -> Result<i32, DecodeError>;
 }
 
 impl EncIntegerDecoder for EncInteger {
     fn decode(self) -> Result<i32, DecodeError> {
-        let decoded = base64::decode(self.base64)?;
-        Self::_decrypt(decoded)
-    }
+        let encrypted = self.as_slice();
 
-    fn _decrypt(encrypted: Vec<u8>) -> Result<i32, DecodeError> {
         let key = GenericArray::from_slice(&MASTER_KEY);
         let mut enc_block = GenericArray::clone_from_slice(&encrypted);
 

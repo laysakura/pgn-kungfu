@@ -16,9 +16,3 @@ impl DecodeError {
         Self(message)
     }
 }
-
-impl From<base64::DecodeError> for DecodeError {
-    fn from(e: base64::DecodeError) -> Self {
-        Self(format!("{}", e))
-    }
-}
