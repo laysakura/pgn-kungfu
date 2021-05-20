@@ -2,7 +2,7 @@ use pgx::*;
 
 use crate::host::{enc_integer_avg::EncInteger, integer_avg::IntegerAvgState};
 
-use super::enc_integer_decoder::EncIntegerDecoder;
+use super::enc_integer_decrypt::EncIntegerDecrypt;
 
 #[pg_extern]
 fn enc_integer_avg_state_func(

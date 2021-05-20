@@ -7,11 +7,11 @@ use crate::host::enc_integer_avg::{DecodeError, EncInteger};
 // 128-bit key
 const MASTER_KEY: [u8; 16] = [0u8, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
 
-pub(in crate::enclave) trait EncIntegerDecoder {
+pub(in crate::enclave) trait EncIntegerDecrypt {
     fn decode(self) -> Result<i32, DecodeError>;
 }
 
-impl EncIntegerDecoder for EncInteger {
+impl EncIntegerDecrypt for EncInteger {
     fn decode(self) -> Result<i32, DecodeError> {
         let encrypted = self.as_slice();
 
