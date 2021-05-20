@@ -11,6 +11,12 @@ impl Display for DecodeError {
     }
 }
 
+impl DecodeError {
+    pub(crate) fn new(message: String) -> Self {
+        Self(message)
+    }
+}
+
 impl From<base64::DecodeError> for DecodeError {
     fn from(e: base64::DecodeError) -> Self {
         Self(format!("{}", e))
