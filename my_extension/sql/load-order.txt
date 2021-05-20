@@ -1,3 +1,6 @@
 host_integer_avg_typ.generated.sql
 host_integer_avg_func.generated.sql
 host_integer_avg.generated.sql
+host_enc_integer_avg_typ.generated.sql
+enclave_enc_integer_avg_func.generated.sql
+host_enc_integer_avg.generated.sql
