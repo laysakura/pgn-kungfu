@@ -1,2 +1,4 @@
 host_enc_integer.generated.sql
+host_integer_avg_typ.generated.sql
+host_integer_avg_func.generated.sql
 host_integer_avg.generated.sql
