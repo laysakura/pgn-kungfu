@@ -2,16 +2,16 @@ use std::convert::TryInto;
 
 use aes::{cipher::generic_array::GenericArray, Aes128, BlockDecrypt, NewBlockCipher};
 
-use crate::host::enc_integer_avg::{DecodeError, EncInteger};
+use crate::host::enc_integer_avg::{DecryptError, EncInteger};
 
 use super::MASTER_KEY;
 
 pub(in crate::enclave) trait EncIntegerDecrypt {
-    fn decrypt(self) -> Result<i32, DecodeError>;
+    fn decrypt(self) -> Result<i32, DecryptError>;
 }
 
 impl EncIntegerDecrypt for EncInteger {
-    fn decrypt(self) -> Result<i32, DecodeError> {
+    fn decrypt(self) -> Result<i32, DecryptError> {
         let encrypted = self.as_slice();
 
         let key = GenericArray::from_slice(&MASTER_KEY);
@@ -25,8 +25,8 @@ impl EncIntegerDecrypt for EncInteger {
         };
         let decrypted = dec_block.to_vec();
         let decrypted: [u8; 16] = decrypted.try_into().map_err(|orig_vec: Vec<u8>| {
-            DecodeError::new(format!(
-                "base64-decoded data is {} bytes, while expected to be 4 bytes (4-byte integer with 16-byte padding))",
+            DecryptError::new(format!(
+                "decrypted block is {} bytes, while expected to be 16 bytes (4-byte integer with 16-byte padding))",
                 orig_vec.len()
             ))
         })?;

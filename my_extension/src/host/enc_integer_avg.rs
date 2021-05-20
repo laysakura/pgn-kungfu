@@ -3,7 +3,7 @@ mod typ;
 
 pub use typ::EncInteger;
 
-pub(crate) use error::DecodeError;
+pub(crate) use error::DecryptError;
 
 use pgx::*;
 
