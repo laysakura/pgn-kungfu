@@ -1,1 +1,2 @@
-lib.generated.sql
+host_enc_integer.generated.sql
+host_integer_avg.generated.sql
