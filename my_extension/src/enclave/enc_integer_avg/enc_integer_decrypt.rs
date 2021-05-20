@@ -24,13 +24,15 @@ impl EncIntegerDecrypt for EncInteger {
             enc_block
         };
         let decrypted = dec_block.to_vec();
-        let decrypted: [u8; 4] = decrypted.try_into().map_err(|orig_vec: Vec<u8>| {
+        let decrypted: [u8; 16] = decrypted.try_into().map_err(|orig_vec: Vec<u8>| {
             DecodeError::new(format!(
-                "base64-decoded data is {} bytes (while expected to be 4 bytes)",
+                "base64-decoded data is {} bytes, while expected to be 4 bytes (4-byte integer with 16-byte padding))",
                 orig_vec.len()
             ))
         })?;
 
-        Ok(i32::from_be_bytes(decrypted))
+        Ok(i32::from_be_bytes(
+            decrypted[..4].try_into().expect("length already checked"),
+        ))
     }
 }

@@ -11,7 +11,13 @@ pub(in crate::enclave) trait EncIntegerEncrypt {
 impl EncIntegerEncrypt for EncInteger {
     fn encrypt(integer: i32) -> Self {
         let key = GenericArray::from_slice(&MASTER_KEY);
-        let mut plain_block = GenericArray::clone_from_slice(&integer.to_be_bytes());
+
+        let mut plain_block = {
+            let bytes4 = integer.to_be_bytes();
+            let mut bytes16 = bytes4.to_vec();
+            bytes16.extend_from_slice(&[0u8; 12]);
+            GenericArray::clone_from_slice(&bytes16)
+        };
 
         let cipher = Aes128::new(&key);
 
