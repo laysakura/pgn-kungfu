@@ -15,3 +15,9 @@ impl EncInteger {
         &self.0
     }
 }
+
+impl From<Vec<u8>> for EncInteger {
+    fn from(bytes: Vec<u8>) -> Self {
+        Self(bytes)
+    }
+}
