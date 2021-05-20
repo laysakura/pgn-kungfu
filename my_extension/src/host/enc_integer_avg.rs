@@ -1,4 +1,9 @@
+mod error;
 mod typ;
+
+pub use typ::EncInteger;
+
+pub(crate) use error::DecodeError;
 
 use pgx::*;
 

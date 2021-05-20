@@ -1,6 +1,8 @@
 mod func;
 mod typ;
 
+pub use typ::IntegerAvgState;
+
 use pgx::*;
 
 extension_sql!(

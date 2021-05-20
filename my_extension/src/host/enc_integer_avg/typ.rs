@@ -5,5 +5,5 @@ use serde::{Deserialize, Serialize};
 pub struct EncInteger {
     // TODO 固定長の文字列にしたい。4バイトのintegerをAES-128してBase64にすると...?
     // StealthDB だと `INTERNALLENGTH = 45` で指定している。
-    base64: String,
+    pub(crate) base64: String,
 }
